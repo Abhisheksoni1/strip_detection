@@ -19,7 +19,7 @@ def index():
         if len(files):
             file = files.get("chooseFile")
             filename = file.filename
-            file.save(file.name)
+            file.save(file.filename)
             label, probability = check_class(filename)
             print(label, probability)
             return render_template("main.html", label=label.upper(), confidence=probability)
