@@ -26,5 +26,21 @@ def index():
     return render_template("main.html")
 
 
+@app.route('/send_file', methods=['POST'])
+def send_file():
+    if request.method=="POST":
+        files = request.files
+        print(files)
+        if len(files):
+            file = files.get("chooseFile")
+            filename = file.filename
+            file.save(file.filename)
+            label, probability = check_class(filename)
+            print(label, probability)
+            return jsonify({"success": True, "data": {"label": label, "probability": probability}})
+        else:
+            return jsonify({"success": False, "message": "file missing!"})
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4000, debug=True)
